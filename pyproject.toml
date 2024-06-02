@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "llm-rag-dip"
+version = "0.1.0"
+description = ""
+authors = ["Jakub Kucera <jakub.kucerja@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+jupyter = "^1.0.0"
+llama-index = "^0.10.42"
+langchain = "^0.2.1"
+llama-index-readers-wikipedia = "^0.1.4"
+llama-index-llms-openai = "^0.1.21"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
