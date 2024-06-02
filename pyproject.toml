@@ -6,12 +6,22 @@ authors = ["Jakub Kucera <jakub.kucerja@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = ">=3.12,<3.13"
 jupyter = "^1.0.0"
 llama-index = "^0.10.42"
 langchain = "^0.2.1"
 llama-index-readers-wikipedia = "^0.1.4"
 llama-index-llms-openai = "^0.1.21"
+wikipedia = "^1.4.0"
+llama-index-llms-ollama = "^0.1.5"
+llama-index-embeddings-huggingface = "^0.2.1"
+spacy = "^3.7.4"
+langchain-community = "^0.2.1"
+langchainhub = "^0.1.17"
+gpt4all = "^2.7.0"
+langchain-chroma = "^0.1.1"
+pypdf = "^4.2.0"
+pymupdf = "^1.24.5"
 
 
 [build-system]
