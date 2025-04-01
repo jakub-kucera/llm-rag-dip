@@ -13,16 +13,17 @@ output_dataset = []
 #         content = f.read()
         # print(content)
 
+MAX_MODEL_LEN = 128000
 # llm = LLM(model="/home/kucerj56/models/mistralai/Ministral-8B-Instruct-2410")  # Replace with your actual model path
 llm = LLM(
-    # model="/home/kucerj56/models/microsoft/Phi-4-mini-instruct",
+    model="/home/kucerj56/models/microsoft/Phi-4-mini-instruct",
     # model="/home/kucerj56/models/meta-llama/Llama-3.1-8B-Instruct",
-    model="/home/kucerj56/models/meta-llama/Llama-3.3-70B-Instruct-bnb-4bit",
-    quantization="bitsandbytes",
-    load_format="bitsandbytes",
+    # model="/home/kucerj56/models/meta-llama/Llama-3.3-70B-Instruct-bnb-4bit",
+    # quantization="bitsandbytes",
+    # load_format="bitsandbytes",
     max_logprobs = 32016,
-    # max_model_len = 128000,
-    max_model_len = 80000,
+    max_model_len = MAX_MODEL_LEN,
+    # max_model_len = 80000,
     trust_remote_code=True
 )
 sampling_params = SamplingParams(
@@ -62,8 +63,14 @@ for c, file in enumerate(os.listdir(input_dir)):
         content = f.read()
 
     full_prompt = prompt_template.format(document_contents=content.strip())
+    if len(full_prompt) > MAX_MODEL_LEN:
+        print(f"File {file} as it is too long ({len(full_prompt)} characters).")
+        content_shortened = content[:MAX_MODEL_LEN - len(prompt_template) - 100]
+        full_prompt = prompt_template.format(document_contents=content_shortened.strip())
     input_prompts.append(full_prompt)
 
+# get a subset of 10 prompts
+# input_prompts = input_prompts[:10]
 input_prompts = input_prompts
 
 print(f"Generating outputs for {len(input_prompts)} prompts...")
