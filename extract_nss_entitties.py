@@ -26,7 +26,7 @@ llm = LLM(
     trust_remote_code=True
 )
 sampling_params = SamplingParams(
-    temperature=0.0,
+    temperature=0.1,
     max_tokens=2048,
     )
 
@@ -64,21 +64,26 @@ for c, file in enumerate(os.listdir(input_dir)):
     full_prompt = prompt_template.format(document_contents=content.strip())
     input_prompts.append(full_prompt)
 
-# get a subset of 10 prompts
-input_prompts = input_prompts[:10]
+input_prompts = input_prompts
 
 print(f"Generating outputs for {len(input_prompts)} prompts...")
 outputs = llm.generate(input_prompts, sampling_params, use_tqdm=True)
 print(f"Generated {len(outputs)} outputs.")
 
+error_count = 0
 print(f"Writing outputs to {output_file}...")
 with open(output_file, "w", encoding="utf-8") as out_f:
     for output in outputs:
         txt = output.outputs[0].text.strip()
+        if '```json' in txt:
+                txt = txt.replace('```json', '').replace('```', '')
         try:
             entry = json.loads(txt)
         except:
-            print(f"Error parsing JSON: {txt}")
+            print(f"Error parsing JSON: {txt[:100]}")
             # wrap string in JSON
             entry = {"error": txt}
+            error_count += 1
         out_f.write(json.dumps(entry, ensure_ascii=False) + "\n")
+
+print(f"Done. {error_count} errors encountered. % of errors: {error_count/len(outputs)*100:.2f}%")
