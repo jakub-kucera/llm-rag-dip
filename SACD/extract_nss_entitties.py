@@ -65,7 +65,6 @@ def process_nss_documents(input_dir: str, output_file: str):
     with open(output_file, "w", encoding="utf-8") as out_f:
         # for prompt in tqdm(input_prompts):
         previous_iteration_start = datetime.datetime.now()
-        # for file in tqdm(os.listdir(input_dir)[(585+1+453+1+376+1+1500):]):
         for file in tqdm(os.listdir(input_dir)):
             print(f"Opening {file}...")
             with open(f"{input_dir}/{file}", encoding="utf-8") as f:
